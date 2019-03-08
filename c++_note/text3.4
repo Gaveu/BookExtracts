@@ -1,0 +1,95 @@
+两种字符串交换的方法
+void swap1(char *&str1,char *&str2)
+{
+	char *tmp = str1;
+	str1 = str2;
+	str2 = tmp;
+}
+
+void swap2(char **str1,char **str2)
+{
+	if(!str1||!str2)
+	{
+		return;
+	}	
+	char *tmp = *str1;
+	*str1 = *str2;
+	*str2 = tmp;
+}
+
+
+
+0000000000000000 <_Z5swap1RPcS0_>:
+   0:	55                   	push   ebp
+   1:	48                   	dec    eax
+   2:	89 e5                	mov    ebp,esp
+   4:	48                   	dec    eax
+   5:	89 7d e8             	mov    DWORD PTR [ebp-0x18],edi
+   8:	48                   	dec    eax
+   9:	89 75 e0             	mov    DWORD PTR [ebp-0x20],esi
+   c:	48                   	dec    eax
+   d:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  10:	48                   	dec    eax
+  11:	8b 00                	mov    eax,DWORD PTR [eax]
+  13:	48                   	dec    eax
+  14:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+  17:	48                   	dec    eax
+  18:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  1b:	48                   	dec    eax
+  1c:	8b 10                	mov    edx,DWORD PTR [eax]
+  1e:	48                   	dec    eax
+  1f:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  22:	48                   	dec    eax
+  23:	89 10                	mov    DWORD PTR [eax],edx
+  25:	48                   	dec    eax
+  26:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  29:	48                   	dec    eax
+  2a:	8b 55 f8             	mov    edx,DWORD PTR [ebp-0x8]
+  2d:	48                   	dec    eax
+  2e:	89 10                	mov    DWORD PTR [eax],edx
+  30:	90                   	nop
+  31:	5d                   	pop    ebp
+  32:	c3                   	ret    
+
+0000000000000033 <_Z5swap2PPcS0_>:
+  33:	55                   	push   ebp
+  34:	48                   	dec    eax
+  35:	89 e5                	mov    ebp,esp
+  37:	48                   	dec    eax
+  38:	89 7d e8             	mov    DWORD PTR [ebp-0x18],edi
+  3b:	48                   	dec    eax
+  3c:	89 75 e0             	mov    DWORD PTR [ebp-0x20],esi
+  3f:	48                   	dec    eax
+  40:	83 7d e8 00          	cmp    DWORD PTR [ebp-0x18],0x0
+  44:	74 2d                	je     73 <_Z5swap2PPcS0_+0x40>
+  46:	48                   	dec    eax
+  47:	83 7d e0 00          	cmp    DWORD PTR [ebp-0x20],0x0
+  4b:	74 26                	je     73 <_Z5swap2PPcS0_+0x40>
+  4d:	48                   	dec    eax
+  4e:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  51:	48                   	dec    eax
+  52:	8b 00                	mov    eax,DWORD PTR [eax]
+  54:	48                   	dec    eax
+  55:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+  58:	48                   	dec    eax
+  59:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  5c:	48                   	dec    eax
+  5d:	8b 10                	mov    edx,DWORD PTR [eax]
+  5f:	48                   	dec    eax
+  60:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  63:	48                   	dec    eax
+  64:	89 10                	mov    DWORD PTR [eax],edx
+  66:	48                   	dec    eax
+  67:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  6a:	48                   	dec    eax
+  6b:	8b 55 f8             	mov    edx,DWORD PTR [ebp-0x8]
+  6e:	48                   	dec    eax
+  6f:	89 10                	mov    DWORD PTR [eax],edx
+  71:	eb 01                	jmp    74 <_Z5swap2PPcS0_+0x41>
+  73:	90                   	nop
+  74:	5d                   	pop    ebp
+  75:	c3                   	ret 
+
+--------------------------------------------------------------------------------
+	通过对比汇编，可以发现第一种方法采用了c++的引用，写法优雅，效率也较之第
+二种的要好～

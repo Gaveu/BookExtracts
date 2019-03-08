@@ -1,0 +1,138 @@
+简单交换方法及其汇编
+
+void swap1(int &a,int &b)
+{
+	int t = a;
+	a = b;
+	b = t;
+}
+
+void swap2(int &a,int &b)
+{
+	a = a+b;
+	b = a-b;
+	a = a-b;
+}
+
+void swap3(int &a,int &b)
+{
+	a ^= b;
+	b ^= a;
+	a ^= b;
+}
+
+Disassembly of section .text:
+
+0000000000000000 <_Z5swap1RiS_>:
+   0:	55                   	push   ebp
+   1:	48                   	dec    eax
+   2:	89 e5                	mov    ebp,esp
+   4:	48                   	dec    eax
+   5:	89 7d e8             	mov    DWORD PTR [ebp-0x18],edi
+   8:	48                   	dec    eax
+   9:	89 75 e0             	mov    DWORD PTR [ebp-0x20],esi
+   c:	48                   	dec    eax
+   d:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  10:	8b 00                	mov    eax,DWORD PTR [eax]
+  12:	89 45 fc             	mov    DWORD PTR [ebp-0x4],eax
+  15:	48                   	dec    eax
+  16:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  19:	8b 10                	mov    edx,DWORD PTR [eax]
+  1b:	48                   	dec    eax
+  1c:	8b 45 e8             	mov    eax,DWORD PTR [ebp-0x18]
+  1f:	89 10                	mov    DWORD PTR [eax],edx
+  21:	48                   	dec    eax
+  22:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+  25:	8b 55 fc             	mov    edx,DWORD PTR [ebp-0x4]
+  28:	89 10                	mov    DWORD PTR [eax],edx
+  2a:	90                   	nop
+  2b:	5d                   	pop    ebp
+  2c:	c3                   	ret    
+
+000000000000002d <_Z5swap2RiS_>:
+  2d:	55                   	push   ebp
+  2e:	48                   	dec    eax
+  2f:	89 e5                	mov    ebp,esp
+  31:	48                   	dec    eax
+  32:	89 7d f8             	mov    DWORD PTR [ebp-0x8],edi
+  35:	48                   	dec    eax
+  36:	89 75 f0             	mov    DWORD PTR [ebp-0x10],esi
+  39:	48                   	dec    eax
+  3a:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  3d:	8b 10                	mov    edx,DWORD PTR [eax]
+  3f:	48                   	dec    eax
+  40:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  43:	8b 00                	mov    eax,DWORD PTR [eax]
+  45:	01 c2                	add    edx,eax
+  47:	48                   	dec    eax
+  48:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  4b:	89 10                	mov    DWORD PTR [eax],edx
+  4d:	48                   	dec    eax
+  4e:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  51:	8b 10                	mov    edx,DWORD PTR [eax]
+  53:	48                   	dec    eax
+  54:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  57:	8b 00                	mov    eax,DWORD PTR [eax]
+  59:	29 c2                	sub    edx,eax
+  5b:	48                   	dec    eax
+  5c:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  5f:	89 10                	mov    DWORD PTR [eax],edx
+  61:	48                   	dec    eax
+  62:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  65:	8b 10                	mov    edx,DWORD PTR [eax]
+  67:	48                   	dec    eax
+  68:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  6b:	8b 00                	mov    eax,DWORD PTR [eax]
+  6d:	29 c2                	sub    edx,eax
+  6f:	48                   	dec    eax
+  70:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  73:	89 10                	mov    DWORD PTR [eax],edx
+  75:	90                   	nop
+  76:	5d                   	pop    ebp
+  77:	c3                   	ret    
+
+0000000000000078 <_Z5swap3RiS_>:
+  78:	55                   	push   ebp
+  79:	48                   	dec    eax
+  7a:	89 e5                	mov    ebp,esp
+  7c:	48                   	dec    eax
+  7d:	89 7d f8             	mov    DWORD PTR [ebp-0x8],edi
+  80:	48                   	dec    eax
+  81:	89 75 f0             	mov    DWORD PTR [ebp-0x10],esi
+  84:	48                   	dec    eax
+  85:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  88:	8b 10                	mov    edx,DWORD PTR [eax]
+  8a:	48                   	dec    eax
+  8b:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  8e:	8b 00                	mov    eax,DWORD PTR [eax]
+  90:	31 c2                	xor    edx,eax
+  92:	48                   	dec    eax
+  93:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  96:	89 10                	mov    DWORD PTR [eax],edx
+  98:	48                   	dec    eax
+  99:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  9c:	8b 10                	mov    edx,DWORD PTR [eax]
+  9e:	48                   	dec    eax
+  9f:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  a2:	8b 00                	mov    eax,DWORD PTR [eax]
+  a4:	31 c2                	xor    edx,eax
+  a6:	48                   	dec    eax
+  a7:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  aa:	89 10                	mov    DWORD PTR [eax],edx
+  ac:	48                   	dec    eax
+  ad:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  b0:	8b 10                	mov    edx,DWORD PTR [eax]
+  b2:	48                   	dec    eax
+  b3:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  b6:	8b 00                	mov    eax,DWORD PTR [eax]
+  b8:	31 c2                	xor    edx,eax
+  ba:	48                   	dec    eax
+  bb:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+  be:	89 10                	mov    DWORD PTR [eax],edx
+  c0:	90                   	nop
+  c1:	5d                   	pop    ebp
+  c2:	c3                   	ret 
+
+-------------------------------------------------------------------------------
+	可以看出swap1的效率较swap2、swap3的要高，并且swap1和swap3都能规避swap2中
+加减法运算导致的溢出可能性.

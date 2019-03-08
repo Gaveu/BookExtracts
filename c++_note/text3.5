@@ -1,0 +1,36 @@
+参数引用的部分问题
+gaveu086@gaveu086-ZHAOYANG-E41-80:~/Han/code/test$ cat main.cpp
+#include<stdio.h>
+#include<iostream>
+using namespace std;
+
+const float pi=3.14f;
+float f;
+
+float f1(float r)
+{
+	f = r*r*pi;
+	return f;
+}
+
+int main()
+{
+	float &a = f1(5.0);
+
+	cout << a<< endl;
+
+	return 0;
+}	
+gaveu086@gaveu086-ZHAOYANG-E41-80:~/Han/code/test$ gcc -c main.cpp
+main.cpp: In function ‘int main()’:
+main.cpp:16:15: error: cannot bind non-const lvalue reference of type ‘float&’ to an rvalue of type ‘float’
+  float &a = f1(5.0);
+             ~~^~~~~
+
+
+----------------------------------------------------------------
+	将变量b赋为f1()的返回值，是错误的。因为在f1()函数里，全局变量f的值78.5赋
+给了一个临时变量temp，这个变量由编译器隐式地建立，然后建立这个temp的引用给b。这
+里对这个临时变量temp建立引用会发生错误.
+
+
