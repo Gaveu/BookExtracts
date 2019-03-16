@@ -1,0 +1,151 @@
+gaveu086@gaveu086-ZHAOYANG-E41-80:~/Han/code/test/stringTest$ cat main.cpp
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+class FatherString
+{
+public:
+	FatherString()
+	{
+		cout << "FatherString New!" << endl;
+	}
+	~FatherString()
+	{
+		cout << "FatherString Delete!" << endl;
+	}
+
+};
+
+
+class String : public FatherString
+{
+public:
+	String()
+	{
+		m_data = nullptr;
+		cout << "String New!" << endl;
+	}
+
+	String(const String &);
+	String(const char *);
+	
+	void show();
+	void write(const char *);
+	void write(const String &);
+
+	~String()
+	{
+		cout << "String Delete" << endl;
+		if(m_data)
+		{
+			delete [] m_data;	
+		}
+	}
+
+
+private:
+	char *m_data;
+
+};
+
+void String::show()
+{
+	cout << m_data << endl;
+}
+
+String::String(const String &str_src)
+{
+	cout << "String New" << endl;
+	if(!str_src.m_data)
+	{
+		m_data = nullptr;
+	}
+	else
+	{
+		m_data = new char[strlen(str_src.m_data)+1];
+		strcpy(m_data,str_src.m_data);
+		m_data[strlen(str_src.m_data)] = '\0';
+	}
+
+}
+
+String::String(const char *c_src)
+{
+	cout << "String New" << endl;
+	if(!c_src)
+	{
+		m_data = nullptr;
+	}
+	else
+	{
+		m_data = new char[strlen(c_src)+1];
+		strcpy(m_data,c_src);
+		m_data[strlen(c_src)] = '\0';
+	}
+}
+
+void String::write(const char *c_src)
+{
+	if(!c_src)
+	{
+		return ;
+	}
+	delete [] m_data;
+	m_data = new char[strlen(c_src)+1];
+	strcpy(m_data,c_src);
+	m_data[strlen(c_src)] = '\0';
+}
+
+void String::write(const String &str_src)
+{
+	if(!str_src.m_data)
+	{
+		return;
+	}
+	delete [] m_data;
+	m_data = new char[strlen(str_src.m_data)+1];
+	strcpy(m_data,str_src.m_data);
+	m_data[strlen(str_src.m_data)] = '\0';
+}
+
+int main()
+{
+	String *ptr_s1 = new String("Hello World");
+	String *ptr_s2 = new String(*ptr_s1);
+
+	ptr_s1->show();
+	ptr_s2->show();
+	
+	ptr_s1->write("This is String1!");
+	ptr_s2->write("This is String2 with different length!");
+
+	ptr_s1->write(*ptr_s2);
+	
+	ptr_s1->show();
+	ptr_s2->show();
+	
+	delete ptr_s1;
+	delete ptr_s2;
+
+	return 0;
+
+}
+gaveu086@gaveu086-ZHAOYANG-E41-80:~/Han/code/test/stringTest$ ./main
+FatherString New!
+String New
+FatherString New!
+String New
+Hello World
+Hello World
+This is String2 with different length!
+This is String2 with different length!
+String Delete
+FatherString Delete!
+String Delete
+FatherString Delete!
+
+----------------------------------------------------------------------------------------------
+	以往以为类内private成员变量仅仅只能被它的实例对象读取和修改，以为同类的其他对象之间不
+能读取和修改彼此的私有成员变量。这个测试例子也是证明了之前的错误想法。
+	除此之外，这个例子也体现了父类子类的构造与析构顺序。
