@@ -1,0 +1,37 @@
+#include<iostream>
+using namespace std;
+
+class Base
+{
+public:
+	int data;
+
+	virtual ~Base(){};	//若未加虚函数则会报错source type is not polymorphic
+};
+
+class Child1 : public Base
+{
+public:
+	int data;
+
+};
+
+
+int main()
+{
+	Base *pB = new Base();
+	Base *pc1 = new Child1();
+
+	Child1 *ptr_dyc_c1 = dynamic_cast<Child1 *>(pc1);	//转换成功且安全
+	//Child1 *ptr_dyc_c2 = dynamic_cast<Base *>(pB);		//转换不成功
+
+	delete pB;
+	delete pc1;
+
+	return 0;
+}
+
+-------------------------------------------------------------------------------
+dynamic_cast适用于有相关的类指针或引用的类型转换，可以将一个基类的指针指向许多不
+同的派生类，相较之static_cast要安全
+

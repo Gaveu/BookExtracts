@@ -1,0 +1,49 @@
+#include<iostream>
+using namespace std;
+
+class Base
+{
+public:
+        int data;
+};
+
+class Child : public Base
+{
+public:
+        int data;
+
+};
+
+class Other
+{
+public:
+        int data;
+};
+
+int main()
+{
+        Base *p1 = new Base();
+        Base *p2 = new Child();
+
+        int i = 666;
+        double d = 3.1415962;
+
+        Child *p3 = static_cast<Child *>(p1);   //转换成功，但不安全
+        Child *p4 = static_cast<Child *>(p2);   //转换成功且安全
+        //Child *p5 = static_cast<Other *>(p1); //转换不成功
+
+        int i1 = static_cast<double>(d);
+        double d1 = static_cast<double>(1);
+
+        cout<<"i1 = "<<i1<<endl;
+        cout<<"d1 = "<<d1<<endl;
+
+
+        delete p1;
+        delete p2;
+}
+-------------------------------------------------------------------------------
+static_cast对于无相关（无继承、派生、多态、重载等）的对象和指针无法转换，会报错。
+可以用于数域宽度较大的类型转换为较小的类型，也可以用于有相关关系的对象和指针转
+换，但可能的存在安全隐患。
+
