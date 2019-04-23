@@ -1,0 +1,66 @@
+#include<iostream>
+using namespace std;
+
+class A
+{
+private:
+	int a;
+	int b;
+	int c;
+
+public:
+	A(int times):a(times++),b(times++),c(times++)
+	{
+		cout << "Enter A's construct!" << endl;
+		cout << "a = " << a << endl;
+		cout << "b = " << b << endl;	
+		cout << "c = " << c << endl;
+	}
+};
+
+class B
+{
+private:
+	int a;
+	int b;
+	int c;
+
+public:
+	B(int times):c(times++),b(times++),a(times++)
+	{
+		cout << "Enter B's construct!" << endl;
+		cout << "a = " << a << endl;
+		cout << "b = " << b << endl;
+		cout << "c = " << c << endl;
+	}
+
+
+};
+
+
+int main()
+{
+	A a(1);
+	cout << "---------------------" << endl; 
+	B b(1);
+
+	return 0;
+}
+-------------------------------------------------------------------------------
+执行结果：
+Enter A's construct!
+a = 1
+b = 2
+c = 3
+---------------------
+Enter B's construct!
+a = 1
+b = 2
+c = 3
+
+初始化列表的初始化顺序由类内各成员变量的声明顺序决定，而非各变量在初始化列表中的
+顺序决定。
+
+
+
+
