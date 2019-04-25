@@ -1,0 +1,89 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<fcntl.h>
+#include<sys/stat.h>
+
+void usage(const char *prog_name);
+void fatal(const char *message);
+void *ec_malloc(unsigned int size);
+
+int main(int argc,char **argv)
+{
+	int fd;
+	char *buffer = NULL;
+	char *datafile = NULL;	
+
+	buffer = (char *)ec_malloc(sizeof(char)*100);
+	datafile = (char *)ec_malloc(sizeof(char)*20);
+	
+	if(argc<3)
+	{
+		usage(argv[0]);
+	}
+
+
+	strcpy(datafile,argv[1]);
+	strcpy(buffer,argv[2]);
+		
+	printf("[DEBUG] buffer @ %p:\'%s\'\n",buffer,buffer);
+	printf("[DEBUG] datafile @ %p:\'%s'\n",datafile,datafile);
+	strncat(buffer,"\n",1);
+
+	//Opening file
+	fd = open(datafile, O_WRONLY|O_CREAT|O_APPEND,S_IRUSR|S_IWUSR);
+	if(-1 == fd)
+	{
+		fatal("in main() while opening file");
+	}
+	printf("[DEBUG] file decriptor is %d\n",fd);
+
+	//Writing data
+	if(-1 == write(fd,buffer,strlen(buffer)))
+	{
+		fatal("in main() while writing buffer to file");
+	}
+	
+	//Closing file
+	if(-1 == close(fd))
+	{
+		fatal("in main() while closing file");
+	}
+	printf("Note has been saved.\n");
+	free(buffer);	
+	free(datafile);
+	return 0;
+}
+
+void usage(const char *prog_name)
+{
+	printf("Usage: %s <notePath> <data to add>\n",prog_name);
+	exit(0);	
+}
+
+void fatal(const char* message)
+{
+	char error_message[100];
+	
+	strcpy(error_message,"[!!] Fatal Error ");
+	strncat(error_message,message,100-strlen("[!!] Fatal Error "));
+
+	perror(error_message);
+	exit(-1);	
+}
+
+void *ec_malloc(unsigned int size)
+{
+	void *ptr;
+	ptr = malloc(size);
+	if(!ptr)
+	{
+		fatal("in ec_malloc() on memory allocation");
+	}
+	return ptr;
+}
+
+
+
+---------------------------------
+简单的本地笔记记录程序，练习本地写入及堆栈溢出漏洞样例
